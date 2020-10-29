@@ -23,6 +23,7 @@ export default {
     autofilter: '自动筛选',
     formula: '函数',
     more: '更多',
+    comment: '批注',
   },
   contextmenu: {
     copy: '复制',

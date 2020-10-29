@@ -1,10 +1,11 @@
 /* global window */
 import en from './en';
+import cn from './zh-cn';
 
 // Defines the fallback language as English
 let $languages = ['en'];
 const $messages = {
-  en,
+  en,'zh-cn':cn
 };
 
 function translate(key, messages) {
