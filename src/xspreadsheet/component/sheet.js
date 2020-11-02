@@ -440,10 +440,12 @@ function editorSetOffset() {
   if (sOffset.top > tOffset.height / 2) {
     sPosition = 'bottom';
   }
+  console.log('setOffset',sOffset,sPosition);
   editor.setOffset(sOffset, sPosition);
 }
 
 function editorSet() {
+  console.log('进入编辑editorSet');
   const { editor, data } = this;
   if (data.settings.mode === 'read') return;
   editorSetOffset.call(this);
@@ -612,8 +614,10 @@ function sheetInitEvents() {
         }
         evt.stopPropagation();
       } else if (evt.detail === 2) {
+        console.log('双击进入编辑');
         editorSet.call(this);
       } else {
+        console.log('单击进入选中');
         overlayerMousedown.call(this, evt);
       }
     })
@@ -854,6 +858,7 @@ function sheetInitEvents() {
       ) {
         dataSetCellText.call(this, evt.key, 'input');
         editorSet.call(this);
+        console.log('按键 进入编辑');
       } else if (keyCode === 113) {
         // F2
         editorSet.call(this);
