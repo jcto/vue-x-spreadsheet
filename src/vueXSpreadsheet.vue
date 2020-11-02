@@ -1,10 +1,12 @@
 <template>
   <div>
     <div id="x-spreadsheet-demo">
-      <!-- <slot name="a"></slot>
+
+    </div>
+    <div class="slots">
+              <!-- <slot name="a"></slot>
       <slot ></slot> -->
     </div>
-    <div class="test">test</div>
   </div>
 </template>
 <script>
@@ -50,11 +52,11 @@ const rows = {
 export default {
     created(){
         this.$slots
-        debugger
+        // debugger
     },
   mounted() {
       this.$slots
-      debugger
+    //   debugger
     x_spreadsheet.locale("zh-cn");
     var xs = new x_spreadsheet("#x-spreadsheet-demo", {
       showToolbar: true,
@@ -90,5 +92,8 @@ export default {
 <style scoped>
 .test {
   color: red;
+}
+.slots{
+    display: block;
 }
 </style>

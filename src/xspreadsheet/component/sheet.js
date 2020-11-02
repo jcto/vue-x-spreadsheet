@@ -14,6 +14,8 @@ import SortFilter from './sort_filter';
 import { xtoast } from './message';
 import { cssPrefix } from '../config';
 import { formulas } from '../core/formula';
+import  comment  from './comment'
+import Commentor from './commentor'
 
 /**
  * @desc throttle fn
@@ -371,6 +373,15 @@ function overlayerMousedown(evt) {
     left, top, width, height,
   } = cellRect;
   let { ri, ci } = cellRect;
+  // cn 获取cell判断是否有注释
+  const cell=data.getCell(ri,ci)
+  if(cell&&cell.comment){
+    // 有注释
+    comment.call(this,cell,cellRect)
+    // alert('填写注释，或者展示注释')
+  }else{
+    // 隐藏 组件显示
+  }
   // sort or filter
   const { autoFilter } = data;
   if (autoFilter.includes(ri, ci)) {
@@ -550,6 +561,10 @@ function toolbarChange(type, value) {
       this.freeze(0, 0);
     }
   } else {
+    if(type=='comment'&&value){
+      // 初始化comment
+      this.commentor.init();
+    }
     data.setSelectedCellAttr(type, value);
     if (type === 'formula' && !data.selector.multiple()) {
       editorSet.call(this);
@@ -689,6 +704,7 @@ function sheetInitEvents() {
   });
 
   bind(window, 'click', (evt) => {
+    debugger
     this.focusing = overlayerEl.contains(evt.target);
   });
 
@@ -873,12 +889,15 @@ export default class Sheet {
     this.modalValidation = new ModalValidation();
     // contextMenu
     this.contextMenu = new ContextMenu(() => this.getRect(), !showContextmenu);
+    // chn comment
+    this.commentor = new Commentor(data)
     // selector
     this.selector = new Selector(data);
     this.overlayerCEl = h('div', `${cssPrefix}-overlayer-content`)
       .children(
         this.editor.el,
         this.selector.el,
+        this.commentor.el
       );
     this.overlayerEl = h('div', `${cssPrefix}-overlayer`)
       .child(this.overlayerCEl);

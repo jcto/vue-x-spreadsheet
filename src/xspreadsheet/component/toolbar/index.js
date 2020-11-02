@@ -24,6 +24,8 @@ import Print from './print';
 import Textwrap from './textwrap';
 import More from './more';
 
+import Comment from './comment'
+
 import { h } from '../element';
 import { cssPrefix } from '../../config';
 import { bind } from '../event';
@@ -131,6 +133,11 @@ export default class Toolbar {
         this.formulaEl = new Formula(),
         this.moreEl = new More(),
       ],
+      buildDivider(),
+      // 批注
+      [
+        this.commentEl=new Comment()
+      ]
     ];
 
     this.el = h('div', `${cssPrefix}-toolbar`);
@@ -184,6 +191,7 @@ export default class Toolbar {
   reset() {
     if (this.isHide) return;
     const { data } = this;
+    // debugger
     const style = data.getSelectedCellStyle();
     // console.log('canUndo:', data.canUndo());
     this.undoEl.setState(!data.canUndo());
@@ -207,5 +215,8 @@ export default class Toolbar {
     this.textwrapEl.setState(style.textwrap);
     // console.log('freeze is Active:', data.freezeIsActive());
     this.freezeEl.setState(data.freezeIsActive());
+
+    const cell = data.getSelectedCell()
+    this.commentEl.setState(!!(cell&&cell.comment))
   }
 }

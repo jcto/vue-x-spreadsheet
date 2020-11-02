@@ -20,6 +20,7 @@ class Element {
   }
 
   on(eventNames, handler) {
+    // debugger
     const [fen, ...oen] = eventNames.split('.');
     let eventName = fen;
     if (eventName === 'mousewheel' && /Firefox/i.test(window.navigator.userAgent)) {

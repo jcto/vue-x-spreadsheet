@@ -330,6 +330,26 @@ class Draw {
     ctx.restore();
   }
 
+  // 画批注
+  comment(box){
+    const { ctx } = this;
+    const {
+      x, y, width, height,
+    } = box;
+    const sx = x ;
+    const sy = y;
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(npx(sx),npx(sy));
+    ctx.lineTo(npx(sx+10),npx(sy));
+    ctx.lineTo(npx(sx),npx(sy+10));
+    ctx.fillStyle = "#FC6666";
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+  // 画下拉选择
+
   dropdown(box) {
     const { ctx } = this;
     const {
