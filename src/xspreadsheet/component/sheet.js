@@ -82,6 +82,18 @@ function selectorSet(multiple, ri, ci, indexesUpdated = true, moving = false) {
   }
   toolbar.reset();
   table.render();
+  // debugger
+  //在这里触发批注单元格被点击
+  // cn 获取cell判断是否有注释
+  if(cell&&cell.comment){
+    this.commentor.show(data);
+    this.isCommenting=true
+    // 有注释
+    // comment.call(this,cell,cellRect)
+    // alert('填写注释，或者展示注释')
+  }else{
+    // 隐藏 组件显示
+  }
 }
 
 // multiple: boolean
@@ -270,13 +282,14 @@ function horizontalScrollbarSet() {
 
 function sheetFreeze() {
   const {
-    selector, data, editor,
+    selector, data, editor,commentor
   } = this;
   const [ri, ci] = data.freeze;
   if (ri > 0 || ci > 0) {
     const fwidth = data.freezeTotalWidth();
     const fheight = data.freezeTotalHeight();
     editor.setFreezeLengths(fwidth, fheight);
+    commentor.setFreezeLengths(fwidth, fheight);
   }
   selector.resetAreaOffset();
 }
@@ -373,15 +386,7 @@ function overlayerMousedown(evt) {
     left, top, width, height,
   } = cellRect;
   let { ri, ci } = cellRect;
-  // cn 获取cell判断是否有注释
-  const cell=data.getCell(ri,ci)
-  if(cell&&cell.comment){
-    // 有注释
-    comment.call(this,cell,cellRect)
-    // alert('填写注释，或者展示注释')
-  }else{
-    // 隐藏 组件显示
-  }
+
   // sort or filter
   const { autoFilter } = data;
   if (autoFilter.includes(ri, ci)) {
@@ -445,7 +450,7 @@ function editorSetOffset() {
 }
 
 function editorSet() {
-  console.log('进入编辑editorSet');
+  if(this.isCommenting)return
   const { editor, data } = this;
   if (data.settings.mode === 'read') return;
   editorSetOffset.call(this);
@@ -563,15 +568,25 @@ function toolbarChange(type, value) {
       this.freeze(0, 0);
     }
   } else {
-    if(type=='comment'&&value){
-      // 初始化comment
-      this.commentor.init();
-    }
+    
     data.setSelectedCellAttr(type, value);
     if (type === 'formula' && !data.selector.multiple()) {
       editorSet.call(this);
     }
     sheetReset.call(this);
+    // debugger
+    if(type=='comment'){
+      if(value){
+      // 初始化comment
+      this.commentor.init(data);
+      this.isCommenting=true;
+      }else{
+        // 取消批注
+        this.commentor.clear()
+      }
+
+    }
+
   }
 }
 
@@ -590,6 +605,7 @@ function sheetInitEvents() {
     verticalScrollbar,
     horizontalScrollbar,
     editor,
+    commentor,
     contextMenu,
     toolbar,
     modalValidation,
@@ -601,6 +617,8 @@ function sheetInitEvents() {
       overlayerMousemove.call(this, evt);
     })
     .on('mousedown', (evt) => {
+      this.isCommenting=false
+      commentor.clear();
       editor.clear();
       contextMenu.hide();
       // the left mouse button: mousedown → mouseup → click
@@ -708,7 +726,6 @@ function sheetInitEvents() {
   });
 
   bind(window, 'click', (evt) => {
-    debugger
     this.focusing = overlayerEl.contains(evt.target);
   });
 
@@ -720,6 +737,8 @@ function sheetInitEvents() {
   // for selector
   bind(window, 'keydown', (evt) => {
     if (!this.focusing) return;
+  if(this.isCommenting)return
+
     const keyCode = evt.keyCode || evt.which;
     const {
       key, ctrlKey, shiftKey, metaKey,

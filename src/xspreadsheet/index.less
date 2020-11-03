@@ -107,31 +107,6 @@ body {
     box-shadow: 1px 1px 3px -1px rgba(0, 0, 0, .3);
   }
 }
-.@{css-prefix}-comment {
-  font-family: inherit;
-  position: absolute;
-  padding: 5px 10px;
-  color: #fff;
-  border-radius: 1px;
-  background: rgb(212, 190, 120);
-  font-size: 12px;
-  z-index: 201;
-
-  &:before {
-    pointer-events: none;
-    position: absolute;
-    left: calc(50% - 4px);
-    top: -4px;
-    content: "";
-    width: 8px;
-    height: 8px;
-    background: inherit;
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-    z-index: 1;
-    box-shadow: 1px 1px 3px -1px rgba(0, 0, 0, .3);
-  }
-}
 
 .@{css-prefix}-color-palette {
   padding: 5px;
@@ -346,7 +321,7 @@ body {
   }
 }
 
-.@{css-prefix}-editor, .@{css-prefix}-selector {
+.@{css-prefix}-editor,.@{css-prefix}-comments, .@{css-prefix}-selector {
   box-sizing: content-box;
   position: absolute;
   overflow: hidden;
@@ -434,6 +409,64 @@ body {
   }
 }
 
+.@{css-prefix}-comments {
+  z-index: 21;
+  .@{css-prefix}-comments-area {
+    position: absolute;
+    text-align: left;
+    // border: 2px solid rgb(75, 137, 255);
+    line-height: 0;
+    z-index: 100;
+    pointer-events: auto;
+    .@{css-prefix}-comment {
+      font-family: inherit;
+      position: absolute;
+      padding: 5px 10px;
+      border-radius: 1px;
+      background: rgb(212, 190, 120);
+      font-size: 12px;
+      z-index: 201;
+      height: 100px;
+      width: 200px;
+    
+      &:before {
+        pointer-events: none;
+        position: absolute;
+        left: calc(50% - 4px);
+        top: -4px;
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: inherit;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        z-index: 1;
+        box-shadow: 1px 1px 3px -1px rgba(0, 0, 0, .3);
+      }
+      textarea {
+        background: inherit;
+        display: block;
+        height: 100%;
+        width: 100%;
+        box-sizing: content-box;
+        border: none;
+        padding: 0 3px;
+        outline: none;
+        resize: none;
+        text-align: start;
+        overflow-y: hidden;
+        font: 400 13px Arial, 'Lato', 'Source Sans Pro', Roboto, Helvetica, sans-serif;
+        color: inherit;
+        white-space: normal;
+        word-wrap: break-word;
+        line-height: 22px;
+        margin: 0;
+      }
+    }
+
+  }
+}
+
 .@{css-prefix}-item {
   user-select: none;
   background: 0;
@@ -477,8 +510,7 @@ body {
 }
 
 .x-spreadsheet-item,
-.x-spreadsheet-header,
-{
+.x-spreadsheet-header {
 
   &.state {
     padding-left: 35px!important;
