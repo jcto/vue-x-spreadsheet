@@ -10,7 +10,6 @@
   </div>
 </template>
 <script>
-import "./test.less";
 import "./xspreadsheet/index.less";
 import x_spreadsheet from "./xspreadsheet/index";
 
@@ -50,10 +49,10 @@ const rows = {
 };
 
 export default {
-    created(){
-        this.$slots
-        // debugger
-    },
+  name:'vue-x-spreadsheet',
+  created(){
+      this.$slots
+  },
   mounted() {
       this.$slots
     //   debugger

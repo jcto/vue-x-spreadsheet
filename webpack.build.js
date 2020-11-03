@@ -5,25 +5,15 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const resolve = dir => path.join(__dirname, '..', dir);
 
 module.exports = {
-    mode: 'production',
-  entry: {'main':'./src/index.js'},
+  mode: 'production',
+  entry: {'main':'./src/vueXSpreadsheet.js'},
   devtool: 'inline-source-map',
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    port: 9000
-  },
   plugins: [
     new CleanWebpackPlugin({cleanStaleWebpackAssets: false }),
-    new HtmlWebpackPlugin({
-      title: 'demo',
-      template:'index.html'
-    }),
     new VueLoaderPlugin(),
   ],
   output: {
-
-    filename: '[name].bundle.js',
+    filename: 'vue-x-spreadsheet.js',
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
