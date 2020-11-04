@@ -13,6 +13,8 @@ module.exports = {
     new VueLoaderPlugin(),
   ],
   output: {
+    library:'vue-x-spreadsheet',
+    libraryTarget:'umd',
     filename: 'vue-x-spreadsheet.js',
     path: path.resolve(__dirname, 'dist'),
   },

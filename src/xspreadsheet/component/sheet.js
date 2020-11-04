@@ -38,7 +38,7 @@ function throttle(func, wait) {
 
 function scrollbarMove() {
   const {
-    data, verticalScrollbar, horizontalScrollbar,
+    data, verticalScrollbar, horizontalScrollbar
   } = this;
   const {
     l, t, left, top, width, height,
@@ -186,13 +186,15 @@ function overlayerMousescroll(evt) {
   if (scrollThreshold > 0) return;
   scrollThreshold = 15;
 
-  const { verticalScrollbar, horizontalScrollbar, data } = this;
+  const { verticalScrollbar, horizontalScrollbar, data,commentor } = this;
   const { top } = verticalScrollbar.scroll();
   const { left } = horizontalScrollbar.scroll();
   // console.log('evt:::', evt.wheelDelta, evt.detail * 40);
 
   const { rows, cols } = data;
-
+  // 隐藏批注
+  commentor.clear()
+  debugger
   // deltaY for vertical delta
   const { deltaY, deltaX } = evt;
   const loopValue = (ii, vFunc) => {
@@ -459,21 +461,24 @@ function editorSet() {
 }
 
 function verticalScrollbarMove(distance) {
-  const { data, table, selector } = this;
+  const { data, table, selector,commentor } = this;
   data.scrolly(distance, () => {
     selector.resetBRLAreaOffset();
     editorSetOffset.call(this);
     table.render();
   });
+  commentor.clear()
 }
 
 function horizontalScrollbarMove(distance) {
-  const { data, table, selector } = this;
+  const { data, table, selector,commentor } = this;
   data.scrollx(distance, () => {
     selector.resetBRTAreaOffset();
     editorSetOffset.call(this);
     table.render();
   });
+  commentor.clear()
+
 }
 
 function rowResizerFinished(cRect, distance) {
