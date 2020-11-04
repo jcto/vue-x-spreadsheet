@@ -1,8 +1,9 @@
 {
   "name": "vue-x-spreadsheet",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "webExcel vue component spreadsheet",
   "main": "dist/vue-x-spreadsheet.js",
+  "module": "src/vueXSpreadsheet.js",
   "directories": {
     "doc": "docs",
     "test": "test"
